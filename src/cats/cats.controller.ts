@@ -1,10 +1,13 @@
-import { Body, Controller, Get, Query } from '@nestjs/common';
+import { Body, Controller, Get, Query ,Req } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiTags,
-  ApiProperty
+  ApiProperty,
+  ApiQuery
 } from '@nestjs/swagger';
 import { CatsService } from './cats.service';
+import { Request } from 'express';
+
 
 
 
@@ -41,9 +44,18 @@ export class CatsController {
 
 
   @Get("/action")
+  @ApiQuery({
+    type:parentObject,
+    style:"deepObject",
+    explode:true
+  })
   async getWithChildObjectInQuery(
-    @Query() query: parentObject
+    @Req() request: Request
+    //@Query() query: parentObject
   ): Promise<string> {
+    const query :parentObject = request.query
+    console.log(query);
+    
     return "";
   }
 
